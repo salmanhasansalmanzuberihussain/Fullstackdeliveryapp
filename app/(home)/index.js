@@ -1,7 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Pressable,
+  TextInput,
+} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location'; //expo-location
-import * as LocationGeoCoding from 'expo-location';
+import * as LocationGeocoding from 'expo-location';
+import { Octicons, AntDesign } from '@expo/vector-icons';
 
 const index = () => {
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
@@ -12,7 +21,7 @@ const index = () => {
   useEffect(() => {
     CheckIfLocationEnabled();
     GetCurrentLocation();
-  });
+  }, []);
 
   const CheckIfLocationEnabled = async () => {
     let enabled = await Location.hasServicesEnabledAsync();
@@ -44,12 +53,79 @@ const index = () => {
     const location = await Location.getCurrentPositionAsync({
       accuracy: Location.Accuracy.High,
     });
+    console.log(location);
+    let { coords } = await Location.getCurrentPositionAsync();
+    if (coords) {
+      const { latitude, longitude } = coords;
+
+      let response = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      const address = await LocationGeocoding.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      const streetAddress = address[0].name;
+      for (let item of response) {
+        let address = `${item.name}, ${item?.postalCode},${item?.city}`;
+
+        setDisplayCurrentAddress(address);
+      }
+    }
   };
 
+  console.log('my address', displayCurrentAddress);
   return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
+    <ScrollView style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+          padding: 10,
+        }}
+      >
+        <Octicons name="location" size={24} color="#E52850" />
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontSize: 15, fontWeight: '500' }}>Deliver To</Text>
+          <Text style={{ color: 'gray', fontSize: 16, marginTop: 3 }}>
+            {displayCurrentAddress}
+          </Text>
+        </View>
+        <Pressable
+          style={{
+            backgroundColor: '#6CB4EE',
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text> $</Text>
+        </Pressable>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderWidth: 1,
+          borderColor: '#C0C0C0',
+          paddingVertical: 8,
+          paddingHorizontal: 10,
+          borderRadius: 11,
+          marginTop: 10,
+          marginHorizontal: 10,
+        }}
+      >
+        <TextInput placeholder="Search for food, hotels" />
+        <AntDesign name="search1" size={24} color="#E52B50" />
+      </View>
+    </ScrollView>
   );
 };
 
