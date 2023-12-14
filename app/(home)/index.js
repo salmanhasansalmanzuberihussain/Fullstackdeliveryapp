@@ -14,6 +14,7 @@ import * as LocationGeocoding from 'expo-location';
 import { Octicons, AntDesign, Ionicons } from '@expo/vector-icons';
 import Carousel from '../../components/Carousel';
 import Categories from '../../components/Categories';
+import Hotel from '../../components/Hotel';
 
 const index = () => {
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
@@ -128,7 +129,7 @@ const index = () => {
     {
       id: '0',
       name: 'Offers',
-      description: 'Upto 50% off',
+      description: 'Up to 50% off',
       image: 'https://cdn-icons-png.flaticon.com/128/9356/9356378.png',
     },
     {
@@ -561,8 +562,19 @@ const index = () => {
               />
             </View>
             <View style={{ padding: 10, flexDirection: 'column' }}>
-              <Text>{item?.name}</Text>
-              <Text style={{ flex: 1 }}>{item?.type}</Text>
+              <Text style={{ fontSize: 15, fontWeight: '500' }}>
+                {item?.name}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  marginTop: 3,
+                  color: 'gray',
+                  fontWeight: '500',
+                }}
+              >
+                {item?.type}
+              </Text>
 
               <View
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}
@@ -574,6 +586,65 @@ const index = () => {
           </View>;
         })}
       </ScrollView>
+      <Text
+        style={{
+          textAlign: 'center',
+          marginTop: 7,
+          letterSpacing: 4,
+          marginBottom: 5,
+          color: 'gray',
+        }}
+      >
+        Explore
+      </Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {items?.map((item, index) => (
+          <View
+            key={index}
+            style={{
+              width: 90,
+              borderColor: '#E0E0E0',
+              borderWidth: 1,
+              paddingVertical: 5,
+              paddingHorizontal: 1,
+              borderRadius: 5,
+              marginLeft: 10,
+              marginVertical: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'white',
+            }}
+          >
+            <Image
+              style={{ width: 50, height: 50 }}
+              source={{ uri: item?.image }}
+            />
+            <Text style={{ fontSize: 13, fontWeight: '500', marginTop: 6 }}>
+              {item?.name}
+            </Text>
+            <Text style={{ fontSize: 12, color: 'gray', marginTop: 3 }}>
+              {item?.description}
+            </Text>
+          </View>
+        ))}
+      </ScrollView>
+      <Text
+        style={{
+          textAlign: 'center',
+          marginTop: 7,
+          letterSpacing: 4,
+          marginBottom: 5,
+          color: 'gray',
+        }}
+      >
+        ALL RESTAURANTS
+      </Text>
+
+      <View style={{ marginHorizontal: 8 }}>
+        {hotels?.map((item, index) => {
+          <Hotel key={index} item={item} />;
+        })}
+      </View>
     </ScrollView>
   );
 };
@@ -581,4 +652,3 @@ const index = () => {
 export default index;
 
 const styles = StyleSheet.create({});
-
