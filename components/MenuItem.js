@@ -10,6 +10,9 @@ import {
 } from '../redux/CartReducer';
 
 const MenuItem = ({ item }) => {
+  const [additems, setAddItems] = useState(0);
+  const [selected, setSelected] = useState(false);
+  const dispatch = useDispatch();
   return (
     <View>
       <Pressable
@@ -58,22 +61,101 @@ const MenuItem = ({ item }) => {
             style={{ width: 120, height: 120, borderRadius: 8 }}
             source={{ uri: item?.image }}
           />
-          <Pressable
-            style={{
-              position: 'absolute',
-              top: 95,
-              left: 20,
-              backgroundColor: '#fd5c63',
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-              alignItems: 'center',
-              borderRadius: 5,
-            }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: '600', color: '#fd5c63' }}>
-              ADD
-            </Text>
-          </Pressable>
+          {selected ? (
+            <Pressable
+              style={{
+                position: 'absolute',
+                top: 95,
+                left: 20,
+                backgroundColor: '#fd5c63',
+                flexDirection: 'row',
+                paddingHorizontal: 10,
+                alignItems: 'center',
+                borderRadius: 5,
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  if (additems == 1) {
+                    dispatch(removeFromCart(item));
+                    setAddItems(0);
+                    setSelected(false);
+                    return;
+                  }
+                  setAddItems((c) => c - 1);
+                  dispatch(decrementQuantity(item));
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 25,
+                    color: 'white',
+                    paddingHorizontal: 6,
+                  }}
+                >
+                  -
+                </Text>
+              </Pressable>
+
+              <Pressable>
+                <Text
+                  style={{
+                    color: 'white',
+                    paddingHorizontal: 6,
+                    fontSize: 15,
+                  }}
+                >
+                  {additems}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  setAddItems((c) => c + 1);
+                  dispatch(incrementQuantity(item));
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: 'white',
+                    paddingHorizontal: 6,
+                  }}
+                >
+                  +
+                </Text>
+              </Pressable>
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() => {
+                setSelected(true);
+                if (additems == 0) {
+                  setAddItems((c) => c + 1);
+                }
+                dispatch(addToCart(item));
+              }}
+              style={{
+                position: 'absolute',
+                top: 95,
+                left: 20,
+                borderColor: '#E32636',
+                borderWidth: 1,
+                flexDirection: 'row',
+                paddingHorizontal: 25,
+                paddingVertical: 5,
+                alignItems: 'center',
+                backgroundColor: 'white',
+                borderRadius: 5,
+              }}
+            >
+              <Text
+                style={{ fontSize: 18, fontWeight: '600', color: '#fd5c63' }}
+              >
+                ADD
+              </Text>
+            </Pressable>
+          )}
         </Pressable>
       </Pressable>
     </View>
