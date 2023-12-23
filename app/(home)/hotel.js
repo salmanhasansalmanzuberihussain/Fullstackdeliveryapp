@@ -215,7 +215,7 @@ const hotel = () => {
               borderRadius: 4,
               paddingHorizontal: 4,
               paddingVertifcal: 5,
-              gap: 6,
+              gap: 4,
             }}
           >
             <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>
