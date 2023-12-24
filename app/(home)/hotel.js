@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -147,103 +147,133 @@ const hotel = () => {
   ];
 
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
-      <View
-        style={{
-          marginTop: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Ionicons
-          onPress={() => router.back()}
-          style={{ padding: 5 }}
-          name="arrow-back"
-          size={24}
-          color="black"
-        />
+    <>
+      <ScrollView style={{ backgroundColor: 'white' }}>
         <View
           style={{
+            marginTop: 5,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingHorizontal: 14,
-            gap: 10,
+            justifyContent: 'space-between',
           }}
         >
-          <SimpleLineIcons name="camera" size={24} color="black" />
-          <Ionicons name="bookmark-outline" size={24} color="black" />
-          <MaterialCommunityIcons
-            name="share-outline"
+          <Ionicons
+            onPress={() => router.back()}
+            style={{ padding: 5 }}
+            name="arrow-back"
             size={24}
             color="black"
           />
-        </View>
-      </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginVertical: 12,
-        }}
-      >
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{params?.name}</Text>
-        <Text
-          style={{
-            marginTop: 5,
-            color: 'gray',
-            fontWeight: '500',
-            fontSize: 15,
-          }}
-        >
-          {' '}
-          North Indian * Fast Food * 160 for one
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 4,
-            marginTop: 10,
-          }}
-        >
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: '#006A4E',
-              borderRadius: 4,
-              paddingHorizontal: 4,
-              paddingVertifcal: 5,
-              gap: 4,
+              paddingHorizontal: 14,
+              gap: 10,
             }}
           >
-            <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>
-              {params?.aggregrate_rating}
-            </Text>
-            <Ionicons name="ios-star" size={15} color="black" />
+            <SimpleLineIcons name="camera" size={24} color="black" />
+            <Ionicons name="bookmark-outline" size={24} color="black" />
+            <MaterialCommunityIcons
+              name="share-outline"
+              size={24}
+              color="black"
+            />
           </View>
         </View>
-        <Text style={{ fontSize: 15, fontWeight: '500', marginLeft: 5 }}>
-          3.2k Ratings
-        </Text>
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#D0F0C0',
-            borderRadius: 20,
-            paddingHorizontal: 10,
-            paddingVertical: 5,
+            marginVertical: 12,
           }}
         >
-          <Text> 30-40 mins * 6km | Bangalore </Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+            {params?.name}
+          </Text>
+          <Text
+            style={{
+              marginTop: 5,
+              color: 'gray',
+              fontWeight: '500',
+              fontSize: 15,
+            }}
+          >
+            {' '}
+            North Indian * Fast Food * 160 for one
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 4,
+              marginTop: 10,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#006A4E',
+                borderRadius: 4,
+                paddingHorizontal: 4,
+                paddingVertifcal: 5,
+                gap: 4,
+              }}
+            >
+              <Text
+                style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}
+              >
+                {params?.aggregrate_rating}
+              </Text>
+              <Ionicons name="ios-star" size={15} color="black" />
+            </View>
+          </View>
+          <Text style={{ fontSize: 15, fontWeight: '500', marginLeft: 5 }}>
+            3.2k Ratings
+          </Text>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#D0F0C0',
+              borderRadius: 20,
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}
+          >
+            <Text> 30-40 mins * 6km | Bangalore </Text>
+          </View>
         </View>
-      </View>
-      {menu?.map((item, index) => (
-        <FoodItem key={index} item={item} />
-      ))}
-    </ScrollView>
+        {menu?.map((item, index) => (
+          <FoodItem key={index} item={item} />
+        ))}
+      </ScrollView>
+      {cart?.length > 0 && (
+        <Pressable style={{ backgroundColor: ' ' }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 15,
+              fontWeight: '600',
+            }}
+          >
+            {cart.length} items added
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              marginTop: 5,
+              fontWeight: '600',
+            }}
+          >
+            Add item(s) worth 240 to reduce surge fee by Rs 35.
+          </Text>
+        </Pressable>
+      )}
+    </>
   );
 };
 
